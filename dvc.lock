@@ -1,0 +1,79 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw/iris.csv
+      hash: md5
+      md5: 57fce90c81521889c736445f058c4838
+      size: 3716
+    - path: src/prepare.py
+      hash: md5
+      md5: cd55c476ac4801ee076daf1eb25d3f11
+      size: 850
+    outs:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 4dcbaff6ef65a732795d3dd3c26e9df7
+      size: 561
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: b5174c281fd391b84bc959c987e64723
+      size: 2091
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: afef6c9a77d3d97bf966d3d80680a3c4
+      size: 318
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: 12696310647ca7f4a99fc938eb5552b7
+      size: 1250
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: b5174c281fd391b84bc959c987e64723
+      size: 2091
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: 12696310647ca7f4a99fc938eb5552b7
+      size: 1250
+    - path: params.yaml
+      hash: md5
+      md5: d6071f023b8827359cddc84ba43b775a
+      size: 114
+    - path: src/train.py
+      hash: md5
+      md5: 4f9993888d6d6326b2034e41cbda1833
+      size: 664
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: a16fbcd61afdc4989143ceff079c6d27
+      size: 19105
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 4dcbaff6ef65a732795d3dd3c26e9df7
+      size: 561
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: afef6c9a77d3d97bf966d3d80680a3c4
+      size: 318
+    - path: models/model.pkl
+      hash: md5
+      md5: a16fbcd61afdc4989143ceff079c6d27
+      size: 19105
+    - path: src/evaluate.py
+      hash: md5
+      md5: aa23e3e6d9b140270094df8213c4c0d8
+      size: 2360
+    outs:
+    - path: experiments/
+      hash: md5
+      md5: 36f69cd6812f1a48abb29cd037ffa262.dir
+      size: 50460
+      nfiles: 4
